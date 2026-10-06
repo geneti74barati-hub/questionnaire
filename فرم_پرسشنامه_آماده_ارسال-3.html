@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>خودارزیابی نیاز آموزشی - آزمایشگاه دکتر شریفی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef3ee;
+  --paper:#ffffff;
+  --ink:#10241b;
+  --muted:#586a60;
+  --line:#d6e2d8;
+  --forest:#0d4634;
+  --forest2:#14583f;
+  --lime:#c6f3a8;
+  --leaf:#1f8a5b;
+  --leaf-soft:#e5f3ea;
+  --danger:#b3412c;
+  --off:#d3ddd5;
+  --r:20px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;
+  font-size:15px;line-height:1.9;color:var(--ink);background:var(--bg);
+  padding:0 max(12px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+}
+.wrap{max-width:800px;margin:0 auto}
+.hidden{display:none}
+.muted{font-size:13px;color:var(--muted)}
+
+/* ---------- نوار پیشرفت ---------- */
+.progress-sticky{
+  position:sticky;top:0;z-index:30;background:var(--bg);
+  padding:max(10px,env(safe-area-inset-top)) 0 10px;
+}
+.pbar{display:flex;align-items:center;gap:10px}
+.progress{flex:1;height:8px;background:#d9e6dc;border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:8%;background:var(--leaf);border-radius:99px;transition:width .25s ease}
+#progressPct{font-size:12.5px;font-weight:700;color:var(--forest);min-width:38px;text-align:left}
+
+/* ---------- سربرگ ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  background:var(--forest);color:#fff;
+  border-radius:26px;padding:32px 28px 26px;margin-bottom:16px;
+}
+.hero-art{position:absolute;left:-30px;top:-20px;width:270px;height:270px;pointer-events:none}
+.hero > *:not(.hero-art){position:relative}
+.brand-line{
+  display:inline-flex;align-items:center;gap:9px;margin:0 0 16px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+  border-radius:99px;padding:3px 14px 3px 12px;font-size:14px;font-weight:700;color:var(--lime);
+}
+.brand-line .green-apple-emoji{font-size:19px;line-height:1}
+.hero .welcome{margin:0 0 2px;font-size:14px;color:#b5d7c4}
+.hero h1{margin:0 0 10px;font-size:31px;line-height:1.45;font-weight:900;color:#fff;max-width:520px}
+.hero .motto{margin:0;font-size:14px;color:#dcefe3;max-width:520px}
+.hero .note{
+  margin:18px 0 0;max-width:560px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);color:#eaf6ee;border-radius:14px;padding:11px 14px;font-size:13.5px;
+}
+.steps{display:flex;align-items:center;gap:8px;margin-top:20px;flex-wrap:wrap}
+.steps .st{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#e6f5eb}
+.steps .st b{
+  width:24px;height:24px;border-radius:8px;background:var(--lime);color:var(--forest);
+  display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;line-height:1;
+}
+.steps .ln{width:22px;height:2px;background:rgba(255,255,255,.28);border-radius:2px}
+
+/* ---------- کارت ---------- */
+.card{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r);padding:24px;margin-bottom:16px;
+}
+h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 16px;
+  font-size:18.5px;line-height:1.6;font-weight:800;color:var(--forest);
+}
+h2 .num{
+  flex:none;width:34px;height:34px;border-radius:11px;background:var(--forest);color:var(--lime);
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;line-height:1;
+}
+.note{
+  background:var(--leaf-soft);border:1px solid #cde5d4;color:#244634;
+  border-radius:14px;padding:11px 14px;font-size:13.5px;margin-bottom:12px;
+}
+
+/* راهنمای سطح‌ها */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:0 0 6px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+
+/* ---------- فیلدها ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.grid > div:last-child:nth-child(odd){grid-column:1 / -1}
+label{display:block;font-weight:700;color:#23392d;margin:0 0 6px}
+.required:after{content:" *";color:var(--danger)}
+input:not([type="checkbox"]):not([type="radio"]),select,textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--ink);
+  background:#f8fbf8;border:1.5px solid var(--line);border-radius:14px;
+  padding:11px 14px;min-height:50px;outline:none;transition:border-color .15s,box-shadow .15s,background-color .15s;
+}
+textarea{min-height:108px;resize:vertical;display:block}
+select{
+  -webkit-appearance:none;appearance:none;padding-left:42px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%231f8a5b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position:16px 50%;background-size:14px 9px;background-repeat:no-repeat;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus,select:focus,textarea:focus{
+  border-color:var(--leaf);box-shadow:0 0 0 4px rgba(31,138,91,.15);background:#fff;
+}
+::placeholder{color:#8a9b90}
+input[type="checkbox"],input[type="radio"]{accent-color:var(--leaf);width:19px;height:19px;min-width:19px;margin:0;flex:none}
+:focus-visible{outline:3px solid rgba(31,138,91,.5);outline-offset:2px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:none}
+
+/* ---------- سؤال‌ها ---------- */
+.q{padding:18px 0;border-bottom:1px solid #e4ece5}
+.q:first-of-type{padding-top:6px}
+.q:last-child{border-bottom:0;padding-bottom:4px}
+.q > label:first-child{font-size:15px;line-height:1.9;margin-bottom:10px}
+.q > textarea + .voice,.q > input + .voice{margin-top:10px}
+.q .opts + textarea{margin-top:12px}
+
+.opts{display:grid;gap:9px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.opts label{
+  display:flex;align-items:center;gap:10px;margin:0;min-height:50px;padding:9px 13px;
+  font-size:13.5px;font-weight:500;line-height:1.5;color:var(--ink);
+  background:#f8fbf8;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;
+  transition:background-color .15s,border-color .15s;
+}
+.opts label:hover{background:#f0f7f1;border-color:#b3d2bb}
+.opts label:has(input:checked){background:var(--leaf-soft);border-color:var(--leaf);color:var(--forest);font-weight:700}
+
+/* ---------- سطح مهارت: نمودار پله‌ای ---------- */
+.lv::before,.legend .lv::before{
+  content:"";flex:none;width:22px;height:17px;
+  background:
+    linear-gradient(var(--b1),var(--b1)) right 0 bottom 0/4px 6px no-repeat,
+    linear-gradient(var(--b2),var(--b2)) right 6px bottom 0/4px 10px no-repeat,
+    linear-gradient(var(--b3),var(--b3)) right 12px bottom 0/4px 14px no-repeat,
+    linear-gradient(var(--b4),var(--b4)) right 18px bottom 0/4px 17px no-repeat;
+}
+.lv1{--c:#d9553b;--tint:#fdeeea;--b1:var(--c);--b2:var(--off);--b3:var(--off);--b4:var(--off)}
+.lv2{--c:#d99a12;--tint:#fff5dc;--b1:var(--c);--b2:var(--c);--b3:var(--off);--b4:var(--off)}
+.lv3{--c:#3f9e6a;--tint:#e7f5ec;--b1:var(--c);--b2:var(--c);--b3:var(--c);--b4:var(--off)}
+.lv4{--c:#0d6b49;--tint:#dff1e7;--b1:var(--c);--b2:var(--c);--b3:var(--c);--b4:var(--c)}
+.lv5{--c:#3a64b0;--tint:#e8eefa}
+.lv5::before,.legend .lv5::before{
+  background:none;width:auto;height:auto;content:"↻";font-size:19px;line-height:1;font-weight:700;color:var(--c);
+}
+.opts label.lv:has(input:checked){background:var(--tint);border-color:var(--c);color:var(--ink)}
+@supports selector(:has(*)){
+  .opts label.lv input{position:absolute;opacity:0;width:1px;height:1px;min-width:0;pointer-events:none}
+  .opts label.lv{position:relative}
+  .opts label.lv:has(input:focus-visible){outline:3px solid rgba(31,138,91,.5);outline-offset:2px}
+  .opts label.lv:has(input:checked)::after{
+    content:"✓";position:absolute;left:10px;top:50%;transform:translateY(-50%);
+    width:20px;height:20px;border-radius:50%;background:var(--c);color:#fff;
+    font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1;
+  }
+}
+
+/* بازآموزی */
+.retraining-option{margin-top:10px}
+.retraining-label{
+  display:flex;align-items:center;gap:9px;margin:0;padding:9px 14px;border-radius:14px;
+  background:#eef3fb;border:1.5px dashed #b5c8e6;color:#2d4f8f;font-size:13.5px;font-weight:500;cursor:pointer;
+}
+.retraining-label input{accent-color:#3a64b0}
+.retraining-label:has(input:checked){border-style:solid;font-weight:700}
+
+/* ---------- دکمه‌ها ---------- */
+button{
+  font:inherit;cursor:pointer;touch-action:manipulation;border:0;border-radius:14px;
+  min-height:50px;padding:11px 24px;background:var(--forest);color:#fff;font-weight:700;
+  transition:background-color .15s;
+}
+button:hover{background:var(--forest2)}
+button:disabled{opacity:.6;cursor:default}
+.voice{
+  min-height:44px;padding:7px 18px;font-size:13.5px;font-weight:600;border-radius:99px;
+  background:var(--leaf-soft);color:var(--forest);border:1.5px solid #bfdcc8;
+}
+.voice:hover{background:#d6ecde}
+.voice.recording{background:var(--danger);border-color:var(--danger);color:#fff}
+.voice.recording:hover{background:var(--danger)}
+
+.submit-area{margin-top:22px;display:grid;gap:10px;grid-template-columns:1fr auto;align-items:stretch}
+.submit-main{font-size:16.5px;width:100%;background:var(--forest)}
+.print-btn{background:transparent;color:var(--muted);border:1.5px solid var(--line)}
+.print-btn:hover{background:#f0f5f0;color:var(--ink)}
+.status{display:none;grid-column:1 / -1;padding:12px 15px;border-radius:14px;font-size:14px;line-height:1.9}
+.status.show{display:block}
+.status.ok{background:#e6f5ea;color:#1c5a37;border:1px solid #bde0c7}
+.status.err{background:#fdeceb;color:#8f3427;border:1px solid #efc3bf}
+
+/* ---------- موبایل ---------- */
+@media(max-width:650px){
+  body{font-size:14.5px}
+  .hero{padding:24px 18px 20px;border-radius:20px}
+  .hero h1{font-size:23px}
+  .hero-art{width:190px;height:190px;left:-40px;top:-30px}
+  .card{padding:18px;border-radius:16px}
+  h2{font-size:16.5px}
+  .grid{grid-template-columns:1fr}
+  .opts{grid-template-columns:1fr 1fr}
+  .opts label.lv:has(input:checked)::after{left:6px;width:18px;height:18px}
+  .submit-area{grid-template-columns:1fr}
+  .voice{width:100%}
+}
+@media(max-width:400px){.opts{grid-template-columns:1fr}}
+
+@media print{
+  body{background:#fff;padding:0}
+  .progress-sticky,button,.hero-art{display:none!important}
+  .hero{background:#fff;color:#000;border:1px solid #999}
+  .hero *{color:#000!important;background:none!important;border-color:#bbb!important}
+  .card{break-inside:avoid;border-color:#bbb}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="progress-sticky"><div class="pbar"><div class="progress"><span id="progressBar"></span></div><b id="progressPct"></b></div></div>
+
+<div class="hero">
+  <svg class="hero-art" viewBox="0 0 270 270" fill="none" stroke="rgba(198,243,168,.22)" stroke-width="1.6" aria-hidden="true">
+    <polygon points="95,40 140,66 140,118 95,144 50,118 50,66"/>
+    <polygon points="185,92 230,118 230,170 185,196 140,170 140,118"/>
+    <polygon points="95,144 140,170 140,222 95,248 50,222 50,170"/>
+    <line x1="140" y1="118" x2="185" y2="92"/>
+    <circle cx="95" cy="40" r="7" fill="rgba(198,243,168,.35)"/>
+    <circle cx="140" cy="118" r="7" fill="rgba(198,243,168,.35)"/>
+    <circle cx="185" cy="196" r="7" fill="rgba(198,243,168,.35)"/>
+    <circle cx="50" cy="170" r="7" fill="rgba(198,243,168,.35)"/>
+    <circle cx="230" cy="118" r="5" fill="rgba(198,243,168,.35)"/>
+  </svg>
+  <span class="brand-line"><span class="green-apple-emoji" aria-hidden="true">🍏</span>آزمایشگاه دکتر شریفی</span>
+  <p class="welcome">خوش آمدید به فرم توسعه و یادگیری</p>
+  <h1>خودارزیابی نیاز آموزشی کارکنان</h1>
+  <p class="motto">«هر مهارتی که امروز یاد می‌گیریم، فردای حرفه‌ای ما را بهتر می‌سازد.»</p>
+  <div class="note">
+    این فرم برای شناسایی نیازهای آموزشی واقعی کارکنان طراحی شده است. لطفاً هر مورد را بر اساس میزان تسلط فعلی خود پاسخ دهید. با دقت و صداقت پاسخ دهید؛ پاسخ‌های شما به برنامه‌ریزی بهتر آموزش کمک می‌کند.
+  </div>
+  <div class="steps">
+    <span class="st"><b>۱</b>مشخصات</span><span class="ln"></span>
+    <span class="st"><b>۲</b>خودارزیابی و نیازها</span><span class="ln"></span>
+    <span class="st"><b>۳</b>اولویت‌ها</span>
+  </div>
+</div>
+
+<div class="card">
+<h2><span class="num">۱</span>مشخصات شغلی</h2>
+<div class="grid">
+<div><label class="required" for="name">نام و نام خانوادگی</label><input id="name" autocomplete="name"></div>
+<div><label for="section">بخش / حوزه کاری</label>
+<select id="section" onchange="loadSection()">
+<option value="">انتخاب کنید</option>
+<option>هماتولوژی</option><option>بیوشیمی</option><option>میکروب شناسی</option>
+<option>هورمون شناسی</option><option>HPLC</option><option>فلوسایتومتری</option>
+<option>مولکولی</option><option>الایزا</option><option>پاتولوژی</option><option>اسپرموگرام</option>
+<option>تفکیک و هماهنگی</option><option>پذیرش</option><option>جوابدهی</option><option>نمونه گیری</option>
+<option>VIP</option><option>بیمه</option><option>بیمه تکمیلی</option><option>شیفت عصر</option>
+<option>شیفت شب</option><option>منزل و رزرو</option><option>ارسال</option><option>سوپروایزر</option>
+<option>QC</option><option>HR</option><option>R&D</option><option>مالی</option><option>IT</option>
+<option>تاسیسات</option><option>انبار و لجستیک</option><option>فروش و ارتباط با مشتری</option>
+<option>قراردادها</option><option>انتظامات</option><option>خدمات</option><option>مدیریت</option>
+</select></div>
+<div><label for="role">نقش</label><select id="role"><option>ابتدا بخش را انتخاب کنید</option></select></div>
+</div>
+</div>
+
+<div id="special" class="card hidden"></div>
+
+<div class="card">
+<h2><span class="num">۲</span>نیاز آموزشی و توسعه فردی</h2>
+<div class="q"><label>در انجام کدام بخش از کار خود احساس می‌کنید به آموزش بیشتری نیاز دارید؟</label><textarea class="voiceTarget"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+<div class="q"><label>دوست دارید چه مهارت جدیدی یاد بگیرید که به کارتان کمک کند؟</label><textarea class="voiceTarget"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+<div class="q"><label>کدام روش آموزش برای شما مؤثرتر است؟</label>
+<div class="opts">
+<label><input type="checkbox"> عملی</label><label><input type="checkbox"> همکار ارشد</label>
+<label><input type="checkbox"> حضوری</label><label><input type="checkbox"> ویدئوی کوتاه</label>
+<label><input type="checkbox"> آنلاین</label><label><input type="checkbox"> سناریو و حل مسئله</label>
+<label><input type="checkbox"> ترکیبی</label>
+</div></div>
+<div class="q"><label>آیا آموزشی وجود دارد که همه همکاران بخش شما به آن نیاز داشته باشند؟</label>
+<div class="opts"><label><input type="radio" name="all"> خیر</label><label><input type="radio" name="all"> بله</label></div>
+<textarea class="voiceTarget" placeholder="موضوع"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+<div class="q"><label>آیا مهارت یا تخصصی دارید که بتوانید به همکاران آموزش دهید؟</label>
+<div class="opts"><label><input type="radio" name="teach"> خیر</label><label><input type="radio" name="teach"> بله</label></div>
+<textarea class="voiceTarget" placeholder="موضوع یا مهارت"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+<div class="q"><label>برای رشد شغلی آینده خود دوست دارید چه چیزی یاد بگیرید؟</label><textarea class="voiceTarget"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+<div class="q"><label>مهم‌ترین پیشنهاد شما برای بهتر شدن آموزش در آزمایشگاه چیست؟</label><textarea class="voiceTarget"></textarea><button type="button" class="voice" onclick="voice(this)">🎙 گفتن به نوشتن</button></div>
+</div>
+
+<div class="card">
+<h2><span class="num">۳</span>اولویت‌های آموزشی من</h2>
+<p class="muted" style="margin-top:-6px">سه موضوعی را که بیشترین نیاز آموزشی دارید بنویسید.</p>
+<div class="q" style="padding-top:4px"><label>اولویت ۱</label><input></div>
+<div class="q" style="padding-top:4px"><label>اولویت ۲</label><input></div>
+<div class="q" style="padding-top:4px"><label>اولویت ۳</label><input></div>
+<div class="submit-area">
+<button type="button" class="submit-main" onclick="submitForm()">ثبت و ارسال پاسخ‌ها</button>
+<button type="button" class="print-btn" onclick="window.print()">🖨 چاپ</button>
+<div id="status" class="status"></div>
+</div>
+</div>
+</div>
+
+<script>
+
+const common={
+"هماتولوژی":["آماده‌سازی و پذیرش نمونه","کار با دستگاه CBC و بررسی Flagها","کنترل کیفیت داخلی","بررسی اسمیر خون محیطی","شناسایی سلول‌های غیرطبیعی","بررسی نتایج غیرعادی و بحرانی","مدیریت نمونه نامناسب","رفع خطاهای دستگاه","ایمنی زیستی و پسماند","ثبت و مستندسازی"],
+"بیوشیمی":["آماده‌سازی نمونه","کار با آنالایزر","کالیبراسیون و QC","بررسی Flagها","رفع خطاهای دستگاه","نتایج بحرانی","نمونه همولیز/لیپمیک/ایکتریک","نگهداری معرف‌ها","ثبت نتایج","ایمنی"],
+"میکروب شناسی":["پذیرش نمونه","کشت و انکوباسیون","رنگ‌آمیزی گرم","شناسایی میکروارگانیسم","آنتی‌بیوگرام","کنترل کیفیت محیط کشت","مدیریت نمونه پرخطر","ایمنی زیستی","ثبت نتایج","مستندسازی"],
+"هورمون شناسی":["پذیرش نمونه","کار با سیستم ایمونواسی","کالیبراسیون و QC","نتایج غیرعادی","تداخلات آزمایشگاهی","نمونه نامناسب","نگهداری کیت","نتایج بحرانی","ثبت و تأیید نتایج","ایمنی"],
+"HPLC":["آماده‌سازی نمونه","کار با HPLC","تعویض و آماده‌سازی ستون","کالیبراسیون و QC","بررسی کروماتوگرام","رفع خطا","نگهداری دستگاه","تفسیر نتایج","مستندسازی","ایمنی حلال‌ها"],
+"فلوسایتومتری":["آماده‌سازی نمونه","آماده‌سازی آنتی‌بادی و کنترل","کار با دستگاه و نرم‌افزار","QC","Gating","تحلیل جمعیت سلولی","رفع خطا","نگهداری دستگاه","تفسیر نتایج","مستندسازی"],
+"مولکولی":["استخراج DNA/RNA","آماده‌سازی Master Mix","PCR و Real-time PCR","کنترل مثبت و منفی","پیشگیری از آلودگی","تفسیر منحنی‌ها","رفع خطاهای PCR","کار با تجهیزات","ردیابی نمونه","ایمنی"],
+"الایزا":["آماده‌سازی نمونه و کیت","اجرای ELISA","پیپتاژ","شست‌وشو و انکوباسیون","کار با Reader","QC","محاسبه و تفسیر","رفع خطا","نگهداری کیت","مستندسازی"],
+"اسپرموگرام":["شرایط پذیرش نمونه","بررسی ماکروسکوپی","شمارش اسپرم","تحرک","مورفولوژی","Vitality","گزارش‌نویسی","تست‌های تکمیلی","QC","محرمانگی"],
+"پاتولوژی":["پذیرش و شناسایی نمونه","فیکساسیون","پردازش بافت","پارافین و برش","H&E","QC رنگ‌آمیزی","نمونه نامناسب","ردیابی نمونه","ایمنی مواد شیمیایی","کار با تجهیزات"],
+"پذیرش":["ثبت اطلاعات بیمار","بررسی نسخه","شناخت تست‌ها","شرایط آمادگی بیمار","کار با سیستم پذیرش","بیمه و تعرفه","مدیریت صف","بیمار ناراضی","پیشگیری از خطای ثبت","محرمانگی"],
+"جوابدهی":["تطبیق اطلاعات بیمار","کنترل نتایج","نتایج بحرانی","اصلاح خطا","کار با LIS","ارتباط با بیمار و پزشک","محرمانگی","مدیریت شرایط پرتنش","پیگیری درخواست","مستندسازی"],
+"نمونه گیری":["آماده‌سازی بیمار","احراز هویت","خون‌گیری","نمونه‌گیری کودکان و سالمندان","ونوجکت و تجهیزات","نمونه‌گیری مایعات بدن","برچسب‌گذاری","رد نمونه","PPE و کنترل عفونت","ارتباط با بیمار"],
+"QC":["کنترل کیفیت داخلی","کنترل کیفیت خارجی","تحلیل نمودار QC","Westgard Rules","تحلیل خطا","CAPA","مستندسازی عدم انطباق","چک‌لیست‌ها","شاخص‌های کیفیت","آموزش کارکنان"],
+"سوپروایزر":["برنامه‌ریزی روزانه","مدیریت نیروی انسانی","نظارت کیفیت","مدیریت بحران","رسیدگی به خطا","آموزش کارکنان","موجودی و نیازها","ارتباط بین واحدها","گزارش‌دهی","سیستم‌های آزمایشگاهی"],
+"تفکیک و هماهنگی":["تفکیک نمونه","شرایط نگهداری و انتقال","نمونه نامناسب","ردیابی نمونه","هماهنگی با بخش‌ها","اولویت‌بندی","نمونه اورژانسی","پیشگیری از خطای شناسایی","LIS","مستندسازی"],
+"ارسال":["کنترل بسته‌های ارسال","ثبت و ردیابی","هماهنگی پیک","شرایط حمل","نمونه فوری","تحویل صحیح","مستندسازی","مدیریت تأخیر","ارتباط با بخش‌ها","ایمنی حمل"],
+"بیمه":["شناخت بیمه‌ها","بررسی پوشش","ثبت اسناد","کسورات","نرم‌افزار بیمه","رفع مغایرت","مستندسازی","مطالبات","تعرفه‌ها","گزارش‌گیری"],
+"VIP":["هماهنگی مراجع VIP","ارتباط حرفه‌ای","هماهنگی نمونه‌گیری و جوابدهی","درخواست‌های ویژه","پیگیری سریع","محرمانگی","حل شکایت","ثبت و پیگیری","هماهنگی بین بخش‌ها","مدیریت ترافیک"],
+"شیفت عصر":["تحویل شیفت","اولویت‌بندی","پایش نمونه‌های باقی‌مانده","هماهنگی بخش‌ها","مدیریت خطا","LIS","مستندسازی","کنترل کیفیت کار","ارتباط با سوپروایزر","مدیریت حجم کار"],
+"شیفت شب":["تحویل شیفت","نمونه اورژانسی","کار با نیروی محدود","خرابی تجهیزات","ارتباط با سوپروایزر","مستندسازی","نمونه بحرانی","ایمنی و امنیت","تحویل دقیق","مدیریت بحران"],
+"منزل و رزرو":["ثبت درخواست","بررسی آدرس","آمادگی بیمار","رزرو","هماهنگی نمونه‌گیر","پیگیری خدمت","ثبت سیستم","لغو و تغییر زمان","پاسخگویی","محرمانگی"],
+"بیمه تکمیلی":["شناخت بیمه تکمیلی","بررسی مدارک","ثبت اطلاعات","کسورات","پیگیری اسناد","رفع مغایرت","مستندسازی","ارتباط با بیمه","گزارش‌گیری","پرونده"],
+"R&D":["جستجوی منابع","سؤال پژوهشی","پروپوزال","مدیریت داده","تحلیل آماری","نگارش علمی","ارجاع‌دهی","اخلاق پژوهش","گزارش‌نویسی","ارائه علمی"],
+"HR":["قوانین کار","پرونده پرسنلی","جذب و مصاحبه","نیازسنجی آموزشی","ارزیابی عملکرد","برنامه آموزشی","مدیریت تعارض","گزارش HR","اکسل و تحلیل","محرمانگی"],
+"مالی":["اسناد مالی","حسابداری","Excel","حقوق و دستمزد","بیمه و مالیات","گزارش مالی","مطالبات","بودجه","مستندسازی","نرم‌افزار مالی"],
+"IT":["سخت‌افزار","شبکه","امنیت اطلاعات","Backup","LIS","عیب‌یابی نرم‌افزار","دسترسی کاربران","پایگاه داده","گزارش رخداد","تداوم خدمت"],
+"تاسیسات":["نگهداری پیشگیرانه","برق و UPS","ژنراتور","تهویه","گازهای طبی","عیب‌یابی","ایمنی برق","ثبت سرویس","شرایط اضطراری","ابزار"],
+"انبار و لجستیک":["ورود و خروج کالا","کنترل موجودی","نگهداری کیت و مواد","تاریخ انقضا","مواد شیمیایی","نرم‌افزار انبار","سفارش","هماهنگی خرید","گزارش موجودی","ایمنی"],
+"فروش و ارتباط با مشتری":["مذاکره","معرفی خدمات","شناخت تست‌ها","ارتباط با پزشکان","CRM","پیگیری مشتری","شکایات","گزارش فروش","بازاریابی دیجیتال","فن بیان"],
+"قراردادها":["تنظیم قرارداد","مفاد قرارداد","مذاکره","پیگیری تعهدات","بایگانی","تمدید قرارداد","مستندسازی","هماهنگی واحدها","گزارش‌دهی","قوانین مرتبط"],
+"انتظامات":["کنترل ورود و خروج","مدیریت مراجعین","امنیت","شرایط اضطراری","ارتباط حرفه‌ای","گزارش‌نویسی","کنترل تردد","تعارض","هماهنگی مدیریت","محرمانگی"],
+"خدمات":["نظافت تخصصی","ضدعفونی سطوح","مدیریت پسماند","مواد شوینده","PPE","کنترل عفونت","حفاظت تجهیزات","گزارش کمبود","ایمنی شیمیایی","محرمانگی"]
+};
+const roles={
+"هماتولوژی":["کارکنان بخش"],"بیوشیمی":["کارکنان بخش"],"میکروب شناسی":["کارکنان بخش"],"هورمون شناسی":["کارکنان بخش"],
+"HPLC":["کارکنان بخش"],"فلوسایتومتری":["کارکنان بخش"],"مولکولی":["کارکنان بخش"],"الایزا":["کارکنان بخش"],
+"پاتولوژی":["کارکنان بخش"],"اسپرموگرام":["کارکنان بخش"],"تفکیک و هماهنگی":["کارکنان بخش"],
+"پذیرش":["کارکنان بخش","مسئول/سرپرست"],"جوابدهی":["کارکنان بخش","مسئول/سرپرست"],
+"نمونه گیری":["کارکنان بخش"],"VIP":["کارکنان بخش","مسئول/سرپرست"],"بیمه":["کارکنان بخش"],
+"بیمه تکمیلی":["کارکنان بخش"],"شیفت عصر":["کارکنان شیفت"],"شیفت شب":["کارکنان شیفت"],
+"منزل و رزرو":["کارکنان بخش"],"ارسال":["کارکنان بخش"],"سوپروایزر":["سوپروایزر"],
+"QC":["مسئول QC"],"R&D":["کارکنان بخش"],"HR":["کارکنان بخش"],"مالی":["کارکنان بخش"],
+"IT":["مسئول/کارشناس"],"تاسیسات":["مسئول/کارشناس"],"انبار و لجستیک":["کارکنان بخش"],
+"فروش و ارتباط با مشتری":["کارکنان بخش"],"قراردادها":["کارکنان بخش"],"انتظامات":["کارکنان بخش"],
+"خدمات":["کارکنان بخش"],"مدیریت":["مدیریت"]
+};
+function loadSection(){
+ let s=document.getElementById("section").value,r=document.getElementById("role");
+ r.innerHTML="";
+ (roles[s]||["کارکنان بخش"]).forEach(x=>r.add(new Option(x,x)));
+ let items=common[s]||["وظایف اصلی شغل","کار با تجهیزات یا نرم‌افزارهای مورد استفاده","کنترل کیفیت کار","ایمنی و الزامات سازمانی","مستندسازی و گزارش‌دهی","ارتباط و هماهنگی با سایر واحدها"];
+ let box=document.getElementById("special");box.classList.remove("hidden");
+let html="<h2><span class='num'>✓</span>خودارزیابی صلاحیت‌های شغلی: "+s+"</h2><div class='note'>برای هر مورد فقط یک گزینه را بر اساس وضعیت فعلی خود انتخاب کنید.</div>"
+  +"<div class='legend'><span class='lv lv1'>نیاز به آموزش</span><span class='lv lv2'>آشنایی اولیه</span><span class='lv lv3'>مستقل</span><span class='lv lv4'>مسلط</span><span class='lv lv5'>بازآموزی</span></div>";
+ items.forEach((x,i)=>{html+=`<div class="q"><label>${i+1}. ${x}</label><div class="opts">
+<label class="lv lv1"><input type="radio" name="s${i}"> نیاز به آموزش دارم</label>
+<label class="lv lv2"><input type="radio" name="s${i}"> آشنایی اولیه دارم</label>
+<label class="lv lv3"><input type="radio" name="s${i}"> به‌صورت مستقل انجام می‌دهم</label>
+<label class="lv lv4"><input type="radio" name="s${i}"> مسلط هستم</label>
+<label class="lv lv5"><input type="radio" name="s${i}"> نیاز به بازآموزی</label>
+</div>
+<div class="retraining-option"><label class="retraining-label"><input type="checkbox" name="retraining_needed" value="بله"><span>این مورد نیاز به بازآموزی دارد</span></label></div></div>`;});
+ box.innerHTML=html;
+}
+
+function voice(btn){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const LABEL = "🎙 گفتن به نوشتن";
+
+  if(!SR){
+    alert(
+      "تبدیل گفتار به متن در این مرورگر پشتیبانی نمی‌شود.\n\n" +
+      "فرم را با Chrome (اندروید/کامپیوتر) باز کنید، یا از دکمهٔ میکروفون روی کیبورد گوشی استفاده کنید."
+    );
+    return;
+  }
+
+  /* کلیک دوباره روی دکمهٔ در حال ضبط = توقف */
+  if(btn.classList.contains("recording")){
+    if(btn.__stop) btn.__stop();
+    return;
+  }
+
+  /* اگر ضبط دیگری فعال است، متوقف شود */
+  if(window.__activeStop) window.__activeStop();
+
+  const target=btn.previousElementSibling;
+  if(!target || !target.classList.contains("voiceTarget")) return;
+
+  const r=new SR();
+  r.lang="fa-IR";
+  r.continuous=true;
+  r.interimResults=true;
+
+  let userStopped=false;
+  let restarts=0;
+  let finalText=target.value.trim();
+
+  function finish(){
+    btn.textContent=LABEL;
+    btn.classList.remove("recording");
+    btn.__stop=null;
+    if(window.__activeStop===stop) window.__activeStop=null;
+  }
+  function stop(){
+    userStopped=true;
+    try{ r.stop(); }catch(e){}
+    finish();
+  }
+  btn.__stop=stop;
+  window.__activeStop=stop;
+
+  r.onresult=function(e){
+    let interim="", finals="";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript.trim();
+      if(e.results[i].isFinal) finals += (finals ? " " : "") + t;
+      else interim += (interim ? " " : "") + t;
+    }
+    if(finals){
+      finalText = finalText ? finalText + " " + finals : finals;
+      target.value = finalText;
+    }else if(interim){
+      target.value = finalText ? finalText + " " + interim : interim;
+    }
+    target.dispatchEvent(new Event("input",{bubbles:true}));
+  };
+
+  r.onerror=function(e){
+    console.log("Speech recognition:",e.error);
+    if(e.error==="not-allowed" || e.error==="service-not-allowed"){
+      userStopped=true;
+      alert("دسترسی میکروفون داده نشد. از تنظیمات مرورگر، اجازهٔ Microphone را برای این سایت فعال کنید.");
+    }else if(e.error==="audio-capture"){
+      userStopped=true;
+      alert("میکروفونی پیدا نشد. اتصال یا دسترسی میکروفون را بررسی کنید.");
+    }else if(e.error==="network"){
+      userStopped=true;
+      alert("سرویس تبدیل گفتار به متن در دسترس نیست. اتصال اینترنت را بررسی کنید.");
+    }
+  };
+
+  /* Chrome بعد از چند ثانیه سکوت ضبط را خودش قطع می‌کند؛ تا وقتی کاربر توقف نزده، دوباره شروع می‌شود */
+  r.onend=function(){
+    if(!userStopped && restarts<30){
+      restarts++;
+      try{ r.start(); return; }catch(err){}
+    }
+    finish();
+  };
+
+  btn.textContent="⏹ توقف ضبط";
+  btn.classList.add("recording");
+  try{
+    r.start();
+  }catch(err){
+    console.log(err);
+    finish();
+  }
+}
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyu-MF68BYKYShxYiQ1rVqEWE4BuSncbs-skWO6nhUWZgRg5qGBTLTewaD6ysIObO-R/exec";
+
+function collectFormData(){
+  const data = {};
+  data.name = document.getElementById("name")?.value.trim() || "";
+  data.section = document.getElementById("section")?.value || "";
+  data.role = document.getElementById("role")?.value || "";
+
+  data.selfAssessment = [];
+  document.querySelectorAll("#special .q").forEach((q, i) => {
+    const label = q.querySelector("label")?.textContent?.trim() || "";
+    const selected = q.querySelector('input[type="radio"]:checked');
+    const retraining = q.querySelector('input[name="retraining_needed"]')?.checked || false;
+    if(label) data.selfAssessment.push({item: label, answer: selected ? selected.parentElement.textContent.trim() : "", retraining});
+  });
+
+  data.trainingNeeds = [];
+  document.querySelectorAll("#special + .card .q").forEach(()=>{});
+
+  const textareas = document.querySelectorAll("textarea");
+  data.answers = Array.from(textareas).map((el,i)=>({index:i+1, value:el.value.trim()}));
+
+  const inputs = Array.from(document.querySelectorAll(".card input:not([type=radio]):not([type=checkbox])"));
+  data.priorities = inputs.slice(-3).map(x=>x.value.trim());
+
+  data.methods = Array.from(document.querySelectorAll('.opts input[type="checkbox"]:checked'))
+    .map(x=>x.parentElement.textContent.trim());
+
+  data.allSectionTraining = Array.from(document.querySelectorAll('input[name="all"]:checked'))
+    .map(x=>x.parentElement.textContent.trim());
+  data.canTeach = Array.from(document.querySelectorAll('input[name="teach"]:checked'))
+    .map(x=>x.parentElement.textContent.trim());
+
+  data.submittedAt = new Date().toISOString();
+  return data;
+}
+
+async function submitForm(){
+  const status = document.getElementById("status");
+  const name = document.getElementById("name")?.value.trim();
+  const section = document.getElementById("section")?.value;
+
+  if(!name || !section){
+    status.className="status show err";
+    status.textContent="لطفاً نام و نام خانوادگی و بخش / حوزه کاری را تکمیل کنید.";
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+
+  const btn=document.querySelector(".submit-main");
+  btn.disabled=true;
+  btn.textContent="⏳ در حال ارسال...";
+
+  const payload=collectFormData();
+
+  try{
+    /*
+      ارسال با URLSearchParams برای سازگاری بیشتر با Google Apps Script.
+      سمت Apps Script می‌تواند داده را از e.parameter.data بخواند.
+    */
+    const body = new URLSearchParams();
+    body.append("data", JSON.stringify(payload));
+    body.append("name", payload.name);
+    body.append("section", payload.section);
+    body.append("role", payload.role);
+
+    await fetch(SCRIPT_URL,{
+      method:"POST",
+      mode:"no-cors",
+      body
+    });
+
+    status.className="status show ok";
+    status.textContent="✅ پاسخ‌های شما با موفقیت ارسال شد. از وقتی که برای تکمیل فرم گذاشتید سپاسگزاریم 🌱";
+    btn.textContent="✅ ارسال شد";
+  }catch(err){
+    console.error(err);
+    status.className="status show err";
+    status.textContent="❌ در ارسال اطلاعات مشکلی پیش آمد. لطفاً اتصال اینترنت را بررسی و دوباره تلاش کنید.";
+    btn.disabled=false;
+    btn.textContent="🚀 ثبت و ارسال پاسخ‌ها";
+  }
+}
+
+function updateProgress(){
+  const total=document.querySelectorAll("input,select,textarea").length;
+  const filled=Array.from(document.querySelectorAll("input,select,textarea")).filter(el=>{
+    if(el.type==="radio"||el.type==="checkbox") return el.checked;
+    return el.value && el.value.trim();
+  }).length;
+  const p=total?Math.max(8,Math.min(100,Math.round(filled/total*100))):12;
+  const bar=document.getElementById("progressBar");
+  if(bar) bar.style.width=p+"%";
+  const pct=document.getElementById("progressPct"); if(pct) pct.textContent=p.toLocaleString("fa-IR")+"٪";
+}
+document.addEventListener("input",updateProgress);
+document.addEventListener("change",updateProgress);
+updateProgress();
+
+</script>
+</body>
+</html>
